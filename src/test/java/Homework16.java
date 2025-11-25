@@ -22,7 +22,7 @@ public class Homework16 extends BaseTest{
         driver.get(url);
         WebElement registration = driver.findElement(By.xpath("//a[@href='registration']"));
         registration.click();
-        WebElement RegisterText = driver.findElement(By.xpath("//span[@class='small'])"));
+        WebElement RegisterText = driver.findElement(By.xpath("//span[@class='small']"));
         Assert.assertTrue(RegisterText.isDisplayed());
         driver.quit();
 
