@@ -12,6 +12,7 @@ public class Homework16 extends BaseTest{
     @Test
     public void registrationNavigation(){
         //create fork
+        //test
 //      Added ChromeOptions argument below to fix websocket error
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--remote-allow-origins=*");
