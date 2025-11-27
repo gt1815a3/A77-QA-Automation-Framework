@@ -25,7 +25,9 @@ public class Homework16 extends BaseTest{
         registration.click();
         WebElement RegisterText = driver.findElement(By.xpath("//span[@class='small']"));
         Assert.assertTrue(RegisterText.isDisplayed());
-        driver.quit();
+        driver.quit();////
+
+
 
     }
 }
