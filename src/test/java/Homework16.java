@@ -27,7 +27,7 @@ public class Homework16 extends BaseTest{
         Assert.assertTrue(RegisterText.isDisplayed());
         driver.quit();////
 
-
+//ricardp
 
     }
 }
