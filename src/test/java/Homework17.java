@@ -1,5 +1,6 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class Homework17 extends BaseTest{
@@ -21,7 +22,16 @@ public class Homework17 extends BaseTest{
         Thread.sleep((2000));
         enterRandomNamePlaylist();
         Thread.sleep((2000));
+        getAddToPlayListSuccessMsg();
+        Thread.sleep(2000);
+        Assert.assertTrue(getAddToPlayListSuccessMsg().contains(randomName));
 
+
+    }
+
+    public String getAddToPlayListSuccessMsg() {
+        WebElement notifyMessage = driver.findElement(By.xpath("//div[@class='success show']"));
+        return notifyMessage.getText();
     }
 
     public void enterRandomNamePlaylist() {
@@ -53,4 +63,5 @@ public class Homework17 extends BaseTest{
         searchSongField.clear();
         searchSongField.sendKeys(song);
     }
+
 }
