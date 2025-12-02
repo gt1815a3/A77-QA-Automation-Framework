@@ -14,6 +14,7 @@ public class BaseTest {
     public WebDriver driver;
     public String url;
     public String randomName;
+    public String playListName = "Ricardo";
 
     @BeforeSuite
     static void setupClass() {

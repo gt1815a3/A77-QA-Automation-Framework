@@ -1,6 +1,7 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.List;
@@ -37,12 +38,16 @@ public class Homework19 extends BaseTest{
             newPlayListBtn.click();
             Thread.sleep(2000);
             WebElement newPlayListNameEntryBox = driver.findElement(By.xpath("//*[@id=\"playlists\"]//input"));
-            newPlayListNameEntryBox.sendKeys("Ricardo");
-            Thread.sleep(2000);
+            newPlayListNameEntryBox.sendKeys(playListName);
+            Thread.sleep(1000);
             newPlayListNameEntryBox.sendKeys(Keys.ENTER);
-            Thread.sleep(2000);
+            Thread.sleep(5000);
             WebElement deletePlayListBtn = driver.findElement(By.xpath("//*[@id=\"playlistWrapper\"]//button[@title='Delete this playlist']"));
             deletePlayListBtn.click();
+            Thread.sleep(2000);
+            WebElement successNotification = driver.findElement(By.xpath("//*[@class=\"success show\"]"));
+            String actualText = successNotification.getText();
+            Assert.assertTrue(actualText.contains(playListName));
         }//end else
 
         } //end deletePlaylist
