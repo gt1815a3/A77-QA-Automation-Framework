@@ -17,6 +17,7 @@ public class BaseTest {
     public String url;
     public String randomName;
     public String playListName = "Ricardo";
+    public WebDriverWait wait;
 
     @BeforeSuite
     static void setupClass() {
@@ -56,12 +57,12 @@ public class BaseTest {
 
     public void provideEmail(String email) {
         //WebElement emailField = driver.findElement(By.xpath("//input[@type='email']"));
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("///input[@type='email']"))).click();
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@type='email']"))).click();
         //emailField.click();
         //emailField.clear();
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("///input[@type='email']"))).clear();
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@type='email']"))).clear();
         //emailField.sendKeys(email);
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("///input[@type='email']"))).sendKeys(email);
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@type='email']"))).sendKeys(email);
     }
 
     public void navigatePage() {

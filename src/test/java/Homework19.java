@@ -29,14 +29,16 @@ public class Homework19 extends BaseTest{
             System.out.println("List already exits");
             //WebElement playList = driver.findElement(By.xpath("//*[@id=\"playlists\"]/ul/li[4]/a[contains(text(), 'Ricardo')]"));
             //playList.click();
-            wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\\\"playlists\\\"]/ul/li[4]/a[contains(text(), 'Ricardo')]"))).click();
+            wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"playlists\"]/ul/li[4]/a[contains(text(), 'Ricardo')]"))).click();
             //WebElement deletePlayListBtn = driver.findElement(By.xpath("//*[@id=\"playlistWrapper\"]//button[@title='Delete this playlist']"));
             //deletePlayListBtn.click();
             //click on delete playlist button
-            wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/*[@id=\"playlistWrapper\"]//button[@title='Delete this playlist']"))).click();
+            wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"playlistWrapper\"]//button[@title='Delete this playlist']"))).click();
             //Thread.sleep(2000);
             WebElement successNotification = driver.findElement(By.xpath("//*[@class=\"success show\"]"));
             String actualText = successNotification.getText();
+            System.out.println("Actual text = "+ actualText);
+            System.out.println("playListName = " + playListName);
             Assert.assertTrue(actualText.contains(playListName));
         } else {
             //play list does not exist so add it and click on it
@@ -50,19 +52,21 @@ public class Homework19 extends BaseTest{
             //newPlayListBtn.click();
             wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"playlists\"]/nav/ul/li[@data-testid='playlist-context-menu-create-simple']"))).click();
             //Thread.sleep(2000);
-            //WebElement newPlayListNameEntryBox = driver.findElement(By.xpath("//*[@id=\"playlists\"]//input"));
-            //newPlayListNameEntryBox.sendKeys(playListName);
-            wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"playlists\"]//input"))).sendKeys(playListName);
+            WebElement newPlayListNameEntryBox = driver.findElement(By.xpath("//*[@id=\"playlists\"]//input"));
+            newPlayListNameEntryBox.sendKeys(playListName);
+            //wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"playlists\"]//input"))).sendKeys(playListName);
             //Thread.sleep(1000);
-            //newPlayListNameEntryBox.sendKeys(Keys.ENTER);
-            wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"playlists\"]//input"))).sendKeys(Keys.END);
+            newPlayListNameEntryBox.sendKeys(Keys.ENTER);
+            //wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"playlists\"]//input"))).sendKeys(Keys.END);
             //Thread.sleep(5000);
             //WebElement deletePlayListBtn = driver.findElement(By.xpath("//*[@id=\"playlistWrapper\"]//button[@title='Delete this playlist']"));
             //deletePlayListBtn.click();
+            //wait until the list added successfully message disappears
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//*[@class=\"success show\"]")));
             wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"playlistWrapper\"]//button[@title='Delete this playlist']"))).click();
             //Thread.sleep(2000);
             //WebElement successNotification = driver.findElement(By.xpath("//*[@class=\"success show\"]"));
-            WebElement successNotification = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@class=\\\"success show\\\"]")));
+            WebElement successNotification = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@class=\"success show\"]")));
             String actualText = successNotification.getText();
             Assert.assertTrue(actualText.contains(playListName));
         }//end else
