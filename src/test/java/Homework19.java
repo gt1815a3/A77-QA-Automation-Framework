@@ -22,13 +22,19 @@ public class Homework19 extends BaseTest{
     }
     public void checkPlayListExits() throws InterruptedException {
     //check to see if a playlist named Ricardo exits
-        By elementLocator = By.xpath("/*[@id=\"playlists\"]/ul//*[contains(text(), 'Ricardo')]");
+        By elementLocator = By.xpath("//*[@id=\"playlists\"]/ul/li[4]/a[contains(text(), 'Ricardo')]");
         if (isElementPresent(elementLocator )){
            //it exits so click on it
             System.out.println("List already exits");
-            WebElement playList = driver.findElement(By.xpath("/*[@id=\"playlists\"]/ul//*[contains(text(), 'Ricardo')]"));
+            WebElement playList = driver.findElement(By.xpath("//*[@id=\"playlists\"]/ul/li[4]/a[contains(text(), 'Ricardo')]"));
             playList.click();
-        }else {
+            WebElement deletePlayListBtn = driver.findElement(By.xpath("//*[@id=\"playlistWrapper\"]//button[@title='Delete this playlist']"));
+            deletePlayListBtn.click();
+            Thread.sleep(2000);
+            WebElement successNotification = driver.findElement(By.xpath("//*[@class=\"success show\"]"));
+            String actualText = successNotification.getText();
+            Assert.assertTrue(actualText.contains(playListName));
+        } else {
             //play list does not exist so add it and click on it
             System.out.println("Playlist does not exist");
             WebElement addPlayListBtn = driver.findElement(By.xpath("//*[@id=\"playlists\"]/h1/i[@title='Create a new playlist']"));
