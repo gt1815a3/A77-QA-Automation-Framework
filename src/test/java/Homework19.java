@@ -35,8 +35,9 @@ public class Homework19 extends BaseTest{
             //click on delete playlist button
             wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"playlistWrapper\"]//button[@title='Delete this playlist']"))).click();
             //Thread.sleep(2000);
-            WebElement successNotification = driver.findElement(By.xpath("//*[@class=\"success show\"]"));
-            String actualText = successNotification.getText();
+            String actualText = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@class=\"success show\"]"))).getText();
+            // WebElement successNotification = driver.findElement(By.xpath("//*[@class=\"success show\"]"));
+            // String actualText = successNotification.getText();
             System.out.println("Actual text = "+ actualText);
             System.out.println("playListName = " + playListName);
             Assert.assertTrue(actualText.contains(playListName));
