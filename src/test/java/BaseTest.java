@@ -40,6 +40,15 @@ public class BaseTest {
         driver.quit();
     }
 
+    public void doubleClickPlaylist(){
+        WebElement playlistElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"playlists\"]/ul/li[4]/a")));
+        actions.doubleClick(playListName).perform();
+    }
+
+    public void enterNewPlaylistName(){
+        WebElement playlistInputField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("")));
+
+    }
     public void clickOnLoginButton() {
         //WebElement loginButton = driver.findElement(By.xpath("//button[@type='submit']"));
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@type='submit']"))).click();
