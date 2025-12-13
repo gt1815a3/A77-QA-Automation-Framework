@@ -1,5 +1,6 @@
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -40,13 +41,7 @@ public class BaseTest {
         driver.quit();
     }
 
-    public void doubleClickPlaylist(){
-        WebElement playlistElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"playlists\"]/ul/li[4]/a")));
-        actions.doubleClick(playListName).perform();
-    }
 
-    public void enterNewPlaylistName(){
-        WebElement playlistInputField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("")));
 
     }
     public void clickOnLoginButton() {

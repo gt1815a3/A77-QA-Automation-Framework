@@ -21,5 +21,19 @@ public class Homework21 extends BaseTest{
         enterNewPlaylistName();
         Assert.assertEquals(getRenamePlaylistSuccessMsg(), updatedPlayPlaylistMsg);
     }
+    public void doubleClickPlaylist(){
+        WebElement playlistElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"playlists\"]/ul/li[4]/a")));
+        actions.doubleClick(playListName).perform();
+    }
+    public void enterNewPlaylistName() {
+        WebElement playlistInputField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[name='name']")));
+        playlistInputField.sendKeys(Keys.chord(Keys.CONTROL, "A", Keys.BACK_SPACE));
+        playlistInputField.sendKeys(newPlaylistName);
+        playlistInputField.sendKeys(Keys.ENTER);
+    }
+    public String getRenamePlaylistSuccessMsg(){
+        WebElement notification = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div.success.show")));
+        return notification.getText();
+    }
 
 }
