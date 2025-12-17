@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -19,6 +20,7 @@ public class BaseTest {
     public String randomName;
     public String playListName = "Ricardo";
     public WebDriverWait wait;
+    public Actions actions = null;
 
     @BeforeSuite
     static void setupClass() {
@@ -34,15 +36,12 @@ public class BaseTest {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.manage().window().maximize();
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        actions = new Actions(driver);
         url = BaseURL;
     }
     @AfterMethod
     public void closeBrowser(){
         driver.quit();
-    }
-
-
-
     }
     public void clickOnLoginButton() {
         //WebElement loginButton = driver.findElement(By.xpath("//button[@type='submit']"));

@@ -23,7 +23,7 @@ public class Homework21 extends BaseTest{
     }
     public void doubleClickPlaylist(){
         WebElement playlistElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"playlists\"]/ul/li[4]/a")));
-        actions.doubleClick(playListName).perform();
+        actions.doubleClick(playlistElement).perform();
     }
     public void enterNewPlaylistName() {
         WebElement playlistInputField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[name='name']")));
