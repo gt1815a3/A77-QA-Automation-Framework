@@ -12,7 +12,7 @@ public class Homework21 extends BaseTest{
     String newPlaylistName = "Sample Edited Playlist";
 
     @Test
-    public void renamePlaylist(){
+    public void renamePlaylist()  {
         String updatedPlayPlaylistMsg = "Updated playlist \"Sample Edited Playlist.\"";
         provideEmail("ricardo.lu@testpro.io");
         providePassword("DVNeY4ER");
@@ -21,7 +21,7 @@ public class Homework21 extends BaseTest{
         enterNewPlaylistName();
         Assert.assertEquals(getRenamePlaylistSuccessMsg(), updatedPlayPlaylistMsg);
     }
-    public void doubleClickPlaylist(){
+    public void doubleClickPlaylist()  {
         WebElement playlistElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"playlists\"]/ul/li[4]/a")));
         actions.doubleClick(playlistElement).perform();
     }

@@ -1,3 +1,4 @@
+import com.fasterxml.jackson.databind.ser.Serializers;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -34,6 +35,7 @@ public class BaseTest {
         //options.addArguments("--disable-notifications");
         driver = new ChromeDriver(options);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver.get(BaseURL);
         driver.manage().window().maximize();
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         actions = new Actions(driver);
