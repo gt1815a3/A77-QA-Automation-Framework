@@ -32,7 +32,7 @@ public class BaseTest {
     public void launchBrowser(String BaseURL){
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--remote-allow-origins=*");
-        //options.addArguments("--disable-notifications");
+        options.addArguments("--disable-notifications");
         driver = new ChromeDriver(options);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.get(BaseURL);
@@ -44,6 +44,9 @@ public class BaseTest {
     @AfterMethod
     public void closeBrowser(){
         driver.quit();
+    }
+    public void navigateToPage(){
+        driver.get(url);
     }
     public void clickOnLoginButton() {
         //WebElement loginButton = driver.findElement(By.xpath("//button[@type='submit']"));
