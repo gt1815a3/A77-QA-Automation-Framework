@@ -16,12 +16,12 @@ import java.time.Duration;
 import java.util.UUID;
 
 public class BaseTest {
-    public WebDriver driver;
-    public String url;
+    public static WebDriver driver = null;
+    public static String url = null;
     public String randomName;
     public String playListName = "Ricardo";
-    public WebDriverWait wait;
-    public Actions actions = null;
+    public static WebDriverWait wait = null;
+    public static Actions actions = null;
 
     @BeforeSuite
     static void setupClass() {
