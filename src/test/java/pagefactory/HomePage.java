@@ -13,7 +13,7 @@ public class HomePage extends BasePage{
     }
 
     // locators
-    @FindBy(xpath="/*[@id=\"playlists\"]/ul/li[3]")
+    @FindBy(css = ".playlist:nth-child(3)")
     WebElement playlistElement;
     @FindBy(css = "[name='name']")
     WebElement playlistInputField;
@@ -24,23 +24,31 @@ public class HomePage extends BasePage{
 
     //need to implement the methods
     // page methods
+    /*
     public WebElement getUserAvatar(){
         return findElement(userAvatarIcon);
-    }
+    }*/
     public HomePage doubleClickPlaylist(){
-        WebElement plistElement = wait.until(ExpectedConditions.visibilityOfElementLocated(playlistElement));
-        actions.doubleClick(plistElement).perform();
+        doubleClick(playlistElement);
         return this;
     }
-    public HomePage enterNewPlaylistName(String somePlaylistname){
-        myInputfield.sendKeys(Keys.chord(Keys.CONTROL, "A", Keys.BACK_SPACE));
-        myInputfield.sendKeys(somePlaylistname);
-        myInputfield.sendKeys(Keys.ENTER);
+    public HomePage enterNewPlaylistName(String someName){
+        playlistInputField.sendKeys(Keys.chord(Keys.CONTROL, "A", Keys.BACK_SPACE));
+        playlistInputField.sendKeys(someName);
+        playlistInputField.sendKeys(Keys.ENTER);
+        findElement(notification);
         return this;
     }
+    public boolean isAvatarDisplayed(){
+        return findElement(userAvatarIcon).isDisplayed();
+    }
+    public String getPlaylistName(){
+        return findElement(playlistElement).getText();
+    }
+    /*
     public String getRenamePlaylistSuccessMsg(){
         WebElement myNotification = wait.until(ExpectedConditions.visibilityOfElementLocated(notification));
         return myNotification.getText();
-    }
+    }*/
 
 }

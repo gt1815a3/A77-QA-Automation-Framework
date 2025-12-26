@@ -4,8 +4,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import pages.HomePage;
-import pages.LoginPage;
+import pagefactory.HomePage;
+import pagefactory.LoginPage;
 
 import java.util.List;
 
@@ -19,14 +19,10 @@ public class Homework21 extends BaseTest{
         LoginPage loginPage = new LoginPage(driver);
         HomePage homePage = new HomePage(driver);
         loginPage.login("ricardo.lu@testpro.io", "DVNeY4ER");
-        //provideEmail("ricardo.lu@testpro.io");
-        //providePassword("DVNeY4ER");
-        //clickOnLoginButton();
-        //doubleClickPlaylist();
-        homePage.doubleClickPlaylist();
-        homePage.enterNewPlaylistName(newPlaylistName);
+        homePage.doubleClickPlaylist()
+                .enterNewPlaylistName(newPlaylistName);
         //enterNewPlaylistName();
-        Assert.assertEquals(homePage.getRenamePlaylistSuccessMsg(), updatedPlayPlaylistMsg);
+        Assert.assertEquals(homePage.getPlaylistName(), updatedPlayPlaylistMsg);
     }
     /*
     public void doubleClickPlaylist()  {
