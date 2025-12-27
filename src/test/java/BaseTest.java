@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -30,7 +31,7 @@ public class BaseTest {
     @BeforeMethod
     @Parameters({"BaseURL"})
     public void launchBrowser(String BaseURL){
-        ChromeOptions options = new ChromeOptions();
+        /*ChromeOptions options = new ChromeOptions();
         options.addArguments("--remote-allow-origins=*");
         options.addArguments("--disable-notifications");
         driver = new ChromeDriver(options);
@@ -40,6 +41,17 @@ public class BaseTest {
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         actions = new Actions(driver);
         url = BaseURL;
+         */
+        driver = pickBrowser(System.getProperty("browser"));
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver.manage().window().maximize();
+        driver.get(BaseURL);
+
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        actions = new Actions(driver);
+        url = BaseURL;
+
     }
     @AfterMethod
     public void closeBrowser(){
@@ -47,6 +59,21 @@ public class BaseTest {
     }
     public void navigateToPage(){
         driver.get(url);
+    }
+    public static WebDriver pickBrowser(String browser){
+        switch(browser){
+            case "firefox":
+                WebDriverManager.firefoxdriver().setup();
+                return driver = new FirefoxDriver();
+            case "safari":
+                WebDriverManager.safaridriver().setup();
+            default:
+                WebDriverManager.chromedriver().setup();
+                ChromeOptions chromeOptions = new ChromeOptions();
+                chromeOptions.addArguments("--remote-allow-origins=*");
+                chromeOptions.addArguments("--disable-notifications");
+                return driver = new ChromeDriver(chromeOptions);
+        }
     }
     public void clickOnLoginButton() {
         //WebElement loginButton = driver.findElement(By.xpath("//button[@type='submit']"));
