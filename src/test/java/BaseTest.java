@@ -8,13 +8,23 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.safari.SafariDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
+import java.beans.DesignMode;
+import java.net.MalformedURLException;
+import java.net.URI;
 import java.time.Duration;
+import java.util.HashMap;
 import java.util.UUID;
+
 
 public class BaseTest {
     public static WebDriver driver = null;
@@ -22,7 +32,13 @@ public class BaseTest {
     public String randomName;
     public String playListName = "Ricardo";
     public static WebDriverWait wait = null;
+    public static Wait<WebDriver> fluentWait;
     public static Actions actions = null;
+    public static final ThreadLocal<WebDriver> threadDriver = new ThreadLocal<>();
+
+    public static WebDriver getDriver(){
+        return threadDriver.get();
+    }
 
     @BeforeSuite
     static void setupClass() {
@@ -30,7 +46,18 @@ public class BaseTest {
     }
     @BeforeMethod
     @Parameters({"BaseURL"})
-    public void launchBrowser(String BaseURL){
+    public void setupBrowser(String BaseURL) throws MalformedURLException {
+        threadDriver.set(pickBrowser(System.getProperty("browser")));
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        getDriver().manage().window().maximize();
+        wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+        fluentWait = new FluentWait<WebDriver>(getDriver()).withTimeout(Duration.ofSeconds(5)).pollingEvery(Duration.ofMillis(200));
+        actions = new Actions(getDriver());
+        url = BaseURL;
+        navigatePage();
+    }
+    //single thread
+    public void launchBrowser(String BaseURL) throws MalformedURLException {
         /*ChromeOptions options = new ChromeOptions();
         options.addArguments("--remote-allow-origins=*");
         options.addArguments("--disable-notifications");
@@ -47,26 +74,44 @@ public class BaseTest {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.manage().window().maximize();
         driver.get(BaseURL);
-
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         actions = new Actions(driver);
         url = BaseURL;
 
     }
     @AfterMethod
+    public void TearDown(){
+        threadDriver.get().close();
+        threadDriver.remove();
+    }
     public void closeBrowser(){
         driver.quit();
     }
     public void navigateToPage(){
-        driver.get(url);
+        getDriver().get(url);
     }
-    public static WebDriver pickBrowser(String browser){
+    public static WebDriver pickBrowser(String browser) throws MalformedURLException {
+        DesiredCapabilities caps = new DesiredCapabilities();
+        String gridUrl = "http://192.168.1.197:4444/";
+
         switch(browser){
             case "firefox":
                 WebDriverManager.firefoxdriver().setup();
                 return driver = new FirefoxDriver();
             case "safari":
                 WebDriverManager.safaridriver().setup();
+                return driver = new SafariDriver();
+            case "grid-chrome":
+                caps.setCapability("browserName", "chrome");
+                return driver = new RemoteWebDriver(URI.create(gridUrl).toURL(), caps);
+            case "grid-firefox":
+                caps.setCapability("browserName", "firefox");
+                return driver = new RemoteWebDriver(URI.create(gridUrl).toURL(), caps);
+            case "grid-safari":
+                caps.setCapability("browserName", "safari");
+                return driver = new RemoteWebDriver(URI.create(gridUrl).toURL(), caps);
+            case "cloud-chrome":
+                return lambdaTest();
             default:
                 WebDriverManager.chromedriver().setup();
                 ChromeOptions chromeOptions = new ChromeOptions();
@@ -74,6 +119,23 @@ public class BaseTest {
                 chromeOptions.addArguments("--disable-notifications");
                 return driver = new ChromeDriver(chromeOptions);
         }
+    }
+    public static WebDriver lambdaTest() throws MalformedURLException{
+        String hubURL =  "https://hub.lambdatest.com/wd/hub";
+        ChromeOptions browserOptions = new ChromeOptions();
+        browserOptions.setPlatformName("Windows 10");
+        browserOptions.setBrowserVersion("dev");
+        HashMap<String, Object> ltOptions = new HashMap<String, Object>();
+        ltOptions.put("username", "ricardolu");
+        ltOptions.put("accessKey", "LT_riyIh9qUQ20zYTOrT4FChUlymjL1BQhdiwQGbSR1rogfRCJ");
+        ltOptions.put("build", "Selenium 4");
+        ltOptions.put("project", "Untitled");
+        ltOptions.put("selenium_version", "4.0.0");
+        ltOptions.put("w3c", true);
+        ltOptions.put("name", this.getClass().getName());
+        ltOptions.put("plugin", "java-testNG");
+        browserOptions.setCapability("LT:Options", ltOptions);
+        return new RemoteWebDriver(URI.create(hubURL).toURL(), browserOptions);
     }
     public void clickOnLoginButton() {
         //WebElement loginButton = driver.findElement(By.xpath("//button[@type='submit']"));
