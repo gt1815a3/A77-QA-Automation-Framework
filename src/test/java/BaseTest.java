@@ -90,7 +90,7 @@ public class BaseTest {
     public void navigateToPage(){
         getDriver().get(url);
     }
-    public static WebDriver pickBrowser(String browser) throws MalformedURLException {
+    public WebDriver pickBrowser(String browser) throws MalformedURLException {
         DesiredCapabilities caps = new DesiredCapabilities();
         String gridUrl = "http://192.168.1.197:4444/";
 
@@ -120,7 +120,7 @@ public class BaseTest {
                 return driver = new ChromeDriver(chromeOptions);
         }
     }
-    public static WebDriver lambdaTest() throws MalformedURLException{
+    public WebDriver lambdaTest() throws MalformedURLException{
         String hubURL =  "https://hub.lambdatest.com/wd/hub";
         ChromeOptions browserOptions = new ChromeOptions();
         browserOptions.setPlatformName("Windows 10");
